@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novalnet Payment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="checkout-container">
+        
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo">
+                <!-- Novalnet Logo -->
+                <img src="novalnet-logo.png" alt="Novalnet AG">
+            </div>
+            <div class="language-dropdown">
+                <select>
+                    <option value="en">English</option>
+                    <option value="de">Deutsch</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Order Information Section -->
+        <section class="panel">
+            <div class="panel-header">
+                <h2>ORDER INFORMATION</h2>
+            </div>
+            <div class="panel-body">
+                <p class="order-desc">uni-assist e.V. / v2 /</p>
+                <div class="order-amount">
+                    <span>Amount</span> 
+                    <strong>100,00 EUR</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Option Section -->
+        <section class="panel">
+            <div class="panel-header">
+                <h2>PAYMENT OPTION</h2>
+            </div>
+            <div class="panel-body payment-body">
+                
+                <!-- Payment Method Title -->
+                <div class="payment-method-title">
+                    <label class="radio-label">
+                        <input type="radio" name="payment_type" checked>
+                        <strong>Credit/Debit Cards</strong>
+                    </label>
+                    <div class="card-icons">
+                        <img src="visa-icon.png" alt="Visa">
+                        <img src="mastercard-icon.png" alt="Mastercard">
+                    </div>
+                </div>
+
+                <div class="payment-form-area">
+                    <p class="info-text">The amount will be debited from your credit card once the order is submitted</p>
+                    
+                    <!-- Payment Form -->
+                    <form id="paymentForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cardHolder">Card holder*</label>
+                                <div class="input-with-icon">
+                                    <input type="text" id="cardHolder" required>
+                                    <span class="icon">👤</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardNumber">Card number*</label>
+                                <div class="input-with-icon">
+                                    <input type="text" id="cardNumber" required>
+                                    <span class="icon">💳</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row date-cvc-row">
+                            <div class="form-group date-select">
+                                <label for="month">Month*</label>
+                                <select id="month" required>
+                                    <option value="" disabled selected>Month</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                </select>
+                            </div>
+                            <div class="form-group date-select">
+                                <label for="year">Year*</label>
+                                <select id="year" required>
+                                    <option value="" disabled selected>Year</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                </select>
+                            </div>
+                            <div class="form-group cvc-group">
+                                <label for="cvc">CVC / CVV*</label>
+                                <input type="text" id="cvc" required>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-row">
+                            <label>
+                                <input type="checkbox" required>
+                                You hereby agree to store the Token by continuing to pay
+                            </label>
+                        </div>
+
+                        <div class="submit-btn-area">
+                            <button type="submit" class="pay-btn">Submit Payment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script> 
+</body>
+</html>
