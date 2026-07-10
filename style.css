@@ -237,13 +237,13 @@ body {
     border-top: 4px solid #0084c8;
 }
 
-/* New University Logo Style */
+/* University Logo Style */
 .success-logo {
     text-align: center;
     margin-bottom: 30px;
 }
 .success-logo img {
-    max-height: 90px;
+    max-height: 120px; /* লোগোটি আরেকটু পরিষ্কার দেখানোর জন্য একটু বড় করা হয়েছে */
     width: auto;
 }
 
