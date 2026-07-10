@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnBack2 = document.getElementById('btnBack2');
     const btnBack3 = document.getElementById('btnBack3');
     const cardForm = document.getElementById('cardForm');
+    const btnReturn = document.getElementById('btnReturn');
 
     // Data displays
     const customAmount = document.getElementById('customAmount');
@@ -31,21 +32,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // State Variables
     let amount = "60.00";
     let selectedMethod = "MasterCard (3D Secure)";
+    let redirectTimer = null;
+    const redirectUrl = "https://my.uni-assist.de/";
 
     // Step 1 -> Step 2
     btnNext1.addEventListener('click', () => {
-        // Get custom amount
         amount = parseFloat(customAmount.value).toFixed(2);
-        
-        // Get selected radio method
         const selectedRadio = document.querySelector('input[name="method"]:checked');
         selectedMethod = selectedRadio ? selectedRadio.value : "MasterCard (3D Secure)";
 
-        // Update UI in Step 2
         displayAmount2.textContent = amount;
         displayMethod2.textContent = selectedMethod;
 
-        // Transition
         step1.style.display = 'none';
         step2.style.display = 'block';
     });
@@ -58,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Step 2 -> Step 3
     btnNext2.addEventListener('click', () => {
-        // Update UI in Step 3
         displayAmount3.textContent = amount;
         
         let methodShort = selectedMethod.includes('MasterCard') ? 'Mastercard' 
@@ -66,20 +63,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         : 'PayPal';
         displayMethod3.textContent = methodShort;
 
-        // Switch Headers and Footers for Step 3
         headerMain.style.display = 'none';
         headerFinanzen.style.display = 'flex';
         mainFooter.style.display = 'none';
         altFooter.style.display = 'block';
 
-        // Transition
         step2.style.display = 'none';
         step3.style.display = 'block';
     });
 
     // Step 3 -> Step 2 (Back / Cancel)
     btnBack3.addEventListener('click', () => {
-        // Restore Headers and Footers
         headerFinanzen.style.display = 'none';
         headerMain.style.display = 'flex';
         altFooter.style.display = 'none';
@@ -89,25 +83,31 @@ document.addEventListener('DOMContentLoaded', function() {
         step2.style.display = 'block';
     });
 
-    // Step 3 -> Success Page (Form Submit)
+    // Step 3 -> Step 4 (Form Submit / Success)
     cardForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Prevent actual form submission
+        e.preventDefault(); 
 
-        // Update Success Page
         finalAmount.textContent = amount;
 
-        // Hide Step 3 and Headers/Footers
+        // Hide Step 3 and Finanzen header
         step3.style.display = 'none';
         headerFinanzen.style.display = 'none';
         altFooter.style.display = 'none';
         
-        // Show Success Page
-        step4.style.display = 'flex';
+        // Return to Main Header and Show Success Panel (Step 4)
+        headerMain.style.display = 'flex';
+        mainFooter.style.display = 'flex';
+        step4.style.display = 'block';
 
-        // Redirect after 3 seconds
-        setTimeout(() => {
-            // Redirecting to the required online application sign-in page
-            window.location.href = "https://my.uni-assist.de/"; 
-        }, 3000);
+        // Auto-redirect after 4 seconds
+        redirectTimer = setTimeout(() => {
+            window.location.href = redirectUrl; 
+        }, 4000);
+    });
+
+    // Manual Return Button on Success Page
+    btnReturn.addEventListener('click', () => {
+        if (redirectTimer) clearTimeout(redirectTimer);
+        window.location.href = redirectUrl;
     });
 });
