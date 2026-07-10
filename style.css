@@ -1,226 +1,141 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novalnet Payment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-body {
-    background-color: #ffffff;
-    color: #333;
-    padding: 15px;
-}
+    <!-- মূল পেমেন্ট কন্টেইনার -->
+    <div class="checkout-container" id="checkoutContainer">
+        
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo">
+                <!-- Novalnet Logo -->
+                <img src="novalnet-logo.png" alt="Novalnet AG">
+            </div>
+            <div class="language-dropdown">
+                <select>
+                    <option value="en">English</option>
+                    <option value="de">Deutsch</option>
+                </select>
+            </div>
+        </header>
 
-.checkout-container {
-    max-width: 750px;
-    margin: 0 auto;
-}
+        <!-- Order Information Section -->
+        <section class="panel">
+            <div class="panel-header">
+                <h2>ORDER INFORMATION</h2>
+            </div>
+            <div class="panel-body">
+                <p class="order-desc">uni-assist e.V. / v2 /</p>
+                <div class="order-amount">
+                    <span>Amount (EUR)</span> 
+                    <!-- টাকার পরিমাণ বসানোর ইনপুট -->
+                    <input type="number" id="paymentAmount" value="100.00" step="0.01" min="1" required class="amount-input">
+                </div>
+            </div>
+        </section>
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-top: 10px;
-}
+        <!-- Payment Option Section -->
+        <section class="panel">
+            <div class="panel-header">
+                <h2>PAYMENT OPTION</h2>
+            </div>
+            <div class="panel-body payment-body">
+                
+                <!-- Payment Method Title -->
+                <div class="payment-method-title">
+                    <label class="radio-label">
+                        <input type="radio" name="payment_type" checked>
+                        <strong>Credit/Debit Cards</strong>
+                    </label>
+                    <div class="card-icons">
+                        <img src="visa-icon.png" alt="Visa">
+                        <img src="mastercard-icon.png" alt="Mastercard">
+                    </div>
+                </div>
 
-.logo img {
-    height: 45px;
-}
+                <div class="payment-form-area">
+                    <p class="info-text">The amount will be debited from your credit card once the order is submitted</p>
+                    
+                    <!-- Payment Form -->
+                    <form id="paymentForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cardHolder">Card holder*</label>
+                                <div class="input-with-icon">
+                                    <input type="text" id="cardHolder" required>
+                                    <span class="icon">👤</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardNumber">Card number*</label>
+                                <div class="input-with-icon">
+                                    <input type="text" id="cardNumber" required>
+                                    <span class="icon">💳</span>
+                                </div>
+                            </div>
+                        </div>
 
-.language-dropdown select {
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    font-size: 13px;
-    cursor: pointer;
-}
+                        <div class="form-row date-cvc-row">
+                            <div class="form-group date-select">
+                                <label for="month">Month*</label>
+                                <select id="month" required>
+                                    <option value="" disabled selected>Month</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                </select>
+                            </div>
+                            <div class="form-group date-select">
+                                <label for="year">Year*</label>
+                                <select id="year" required>
+                                    <option value="" disabled selected>Year</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                </select>
+                            </div>
+                            <div class="form-group cvc-group">
+                                <label for="cvc">CVC / CVV*</label>
+                                <input type="text" id="cvc" required>
+                            </div>
+                        </div>
 
-.panel {
-    border: 1px solid #e0e0e0;
-    margin-bottom: 25px;
-}
+                        <div class="checkbox-row">
+                            <label>
+                                <input type="checkbox" required>
+                                You hereby agree to store the Token by continuing to pay
+                            </label>
+                        </div>
 
-.panel-header {
-    background-color: #0070b8; /* Novalnet Blue */
-    color: #ffffff;
-    padding: 12px 15px;
-}
+                        <div class="submit-btn-area">
+                            <button type="submit" class="pay-btn">Submit Payment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
 
-.panel-header h2 {
-    font-size: 14px;
-    font-weight: bold;
-}
+    </div>
 
-.panel-body {
-    padding: 20px 15px;
-    background-color: #fff;
-}
+    <!-- Payment Success Page (শুরুতে হাইড করা থাকবে) -->
+    <div id="successPage" class="success-page" style="display: none;">
+        <div class="success-content">
+            <div class="checkmark-circle"></div>
+            <h2>Payment Successful!</h2>
+            <p>Thank you. Your payment of <strong id="paidAmount"></strong> <strong>EUR</strong> has been successfully processed.</p>
+            <p class="redirect-text">Redirecting to uni-assist portal in a few seconds...</p>
+        </div>
+    </div>
 
-.order-desc {
-    margin-bottom: 20px;
-    color: #333;
-    font-size: 15px;
-}
-
-.order-amount {
-    display: flex;
-    gap: 15px;
-    font-size: 15px;
-    color: #555;
-}
-
-.payment-body {
-    padding: 0; 
-}
-
-.payment-method-title {
-    background-color: #f7f7f7;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.radio-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 15px;
-    color: #333;
-}
-
-.card-icons {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.card-icons img {
-    height: 25px;
-}
-
-.payment-form-area {
-    padding: 20px 15px;
-}
-
-.info-text {
-    font-size: 13px;
-    color: #333;
-    margin-bottom: 25px;
-}
-
-.form-row {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-}
-
-.form-group {
-    flex: 1;
-    min-width: 250px;
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    font-size: 12px;
-    margin-bottom: 5px;
-    color: #555;
-}
-
-.input-with-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.input-with-icon input {
-    width: 100%;
-    padding: 10px 35px 10px 10px;
-}
-
-.input-with-icon .icon {
-    position: absolute;
-    right: 10px;
-    color: #666;
-    font-size: 14px;
-}
-
-input[type="text"], select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    font-size: 14px;
-    outline: none;
-    width: 100%;
-    color: #333;
-}
-
-input[type="text"]:focus, select:focus {
-    border-color: #0070b8;
-}
-
-.date-cvc-row {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.date-select {
-    flex: 1;
-    min-width: 120px;
-}
-
-.cvc-group {
-    flex: 1;
-    min-width: 120px;
-}
-
-.checkbox-row {
-    margin-top: 25px;
-    margin-bottom: 20px;
-}
-
-.checkbox-row label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: #333;
-    cursor: pointer;
-}
-
-.submit-btn-area {
-    text-align: right;
-}
-
-.pay-btn {
-    background-color: #0070b8;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 3px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.pay-btn:hover {
-    background-color: #005a96;
-}
-
-/* মোবাইলের জন্য রেসপন্সিভ ডিজাইন */
-@media (max-width: 600px) {
-    .form-group {
-        min-width: 100%;
-    }
-    .date-select, .cvc-group {
-        min-width: 45%;
-    }
-    .date-cvc-row {
-        gap: 10px;
-    }
-}
+    <script src="script.js"></script> 
+</body>
+</html>
