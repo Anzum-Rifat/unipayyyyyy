@@ -236,6 +236,17 @@ body {
 .step4-success {
     border-top: 4px solid #0084c8;
 }
+
+/* New University Logo Style */
+.success-logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.success-logo img {
+    max-height: 90px;
+    width: auto;
+}
+
 .success-title {
     color: #0084c8;
     font-size: 20px;
