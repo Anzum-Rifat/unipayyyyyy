@@ -8,14 +8,12 @@
 </head>
 <body>
 
-    <!-- Header for Step 1 & 2 -->
+    <!-- Header for Step 1, 2 & 4 -->
     <header class="header" id="header-main">
         <div class="logo-left">
-            <!-- Left Logo Placeholder -->
             <img src="logo-by.png" alt="BY Logo">
         </div>
         <div class="logo-right">
-            <!-- Right Logo Placeholder -->
             <img src="logo-epay.png" alt="ePayServiceBayern Logo">
             <div class="language-select">
                 <select>
@@ -39,7 +37,6 @@
         <div id="step1" class="panel">
             <div class="info-row">
                 <span class="label">Amount:</span>
-                <!-- Editable Amount -->
                 <div class="amount-input-group">
                     <input type="number" id="customAmount" value="60.00" step="0.01" min="1">
                     <span>EUR</span>
@@ -184,16 +181,35 @@
             </div>
         </div>
 
-    </div>
+        <!-- ================= STEP 4: Themed Success Page ================= -->
+        <div id="step4" class="panel step4-success" style="display: none;">
+            <div class="step-title success-title">
+                Payment Successful
+            </div>
+            
+            <div class="info-row">
+                <span class="label">Amount Paid:</span>
+                <span><strong id="finalAmount">60.00</strong> EUR</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Transaction:</span>
+                <span>15059652317057</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Status:</span>
+                <span class="status-completed">Completed</span>
+            </div>
 
-    <!-- ================= STEP 4: Success Page ================= -->
-    <div id="step4" class="success-page" style="display: none;">
-        <div class="success-content">
-            <div class="checkmark-circle"></div>
-            <h2>Payment Successful!</h2>
-            <p>Your payment of <strong><span id="finalAmount"></span> EUR</strong> was processed successfully.</p>
-            <p class="redirect-text">Redirecting to Sign in for Online Application...</p>
+            <div class="instruction success-instruction">
+                Thank you. Your payment has been securely processed. <br><br>
+                Redirecting to <strong>Sign in for Online Application</strong> in a few seconds...
+            </div>
+
+            <div class="actions">
+                <button type="button" class="btn btn-primary" id="btnReturn" style="max-width: 200px;">Return Now</button>
+            </div>
         </div>
+
     </div>
 
     <!-- Footers -->
